@@ -1,7 +1,6 @@
-// RationalNumber.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
+#include "rational_number.h"
 #include <iostream>
+using namespace std;
 
 int main()
 {
