@@ -20,7 +20,12 @@ public:
 	RationalNumber operator/ (const RationalNumber& rhs) const;
 	RationalNumber operator+ (const RationalNumber& rhs) const;
 	RationalNumber operator- (const RationalNumber& rhs) const;
-	bool SetValue(int numerator, int denominator);
+	bool operator<(const RationalNumber& rhs) const;
+	bool operator>(const RationalNumber& rhs) const;
+	bool operator<=(const RationalNumber& rhs) const;
+	bool operator>=(const RationalNumber& rhs) const;
+	bool operator==(const RationalNumber& rhs) const;
+	bool operator!=(const RationalNumber& rhs) const;
 	void Simplify();
 private:
 	int numerator_;

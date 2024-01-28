@@ -46,16 +46,18 @@ RationalNumber& RationalNumber::operator/=(const RationalNumber& rhs)
 
 RationalNumber& RationalNumber::operator+=(const RationalNumber& rhs)
 {
-	int numerator = (this->numerator() * rhs.denominator()) + (this->denominator() * rhs.numerator());
-	int denominator = (this->denominator() * rhs.denominator());
-	SetValue(numerator, denominator);
+	numerator_ = (this->numerator() * rhs.denominator()) + (this->denominator() * rhs.numerator());
+	denominator_ = (this->denominator() * rhs.denominator());
+	Simplify();
+	return *this;
 }
 
 RationalNumber& RationalNumber::operator-=(const RationalNumber& rhs)
 {
-	int numerator = (this->numerator() * rhs.denominator()) - (this->denominator() * rhs.numerator());
-	int denominator = (this->denominator() * rhs.denominator());
-	SetValue(numerator, denominator);
+	numerator_ = (this->numerator() * rhs.denominator()) - (this->denominator() * rhs.numerator());
+	denominator_ = (this->denominator() * rhs.denominator());
+	Simplify();
+	return *this;
 }
 
 RationalNumber RationalNumber::operator*(const RationalNumber& rhs) const
@@ -67,29 +69,53 @@ RationalNumber RationalNumber::operator*(const RationalNumber& rhs) const
 
 RationalNumber RationalNumber::operator/(const RationalNumber& rhs) const
 {
-	// TODO: insert return statement here
+	RationalNumber result = *this;
+	result /= rhs;
+	return result;
 }
 
 RationalNumber RationalNumber::operator+(const RationalNumber& rhs) const
 {
 	RationalNumber result = *this;
-
+	result += rhs;
+	return result;
 }
 
 RationalNumber RationalNumber::operator-(const RationalNumber& rhs) const
 {
-	// TODO: insert return statement here
+	RationalNumber result = *this;
+	result -= rhs;
+	return result;
 }
 
-bool RationalNumber::SetValue(int numerator, int denominator)
+bool RationalNumber::operator<(const RationalNumber& rhs) const
 {
-	if (denominator == 0) {
-		return false;
-	}
-	numerator_ = numerator;
-	denominator_ = denominator;
-	Simplify();
-	return true;
+	return ((this->numerator() * rhs.denominator()) < (this->denominator() * rhs.numerator()));
+}
+
+bool RationalNumber::operator>(const RationalNumber& rhs) const
+{
+	return ((this->numerator() * rhs.denominator()) > (this->denominator() * rhs.numerator()));
+}
+
+bool RationalNumber::operator<=(const RationalNumber& rhs) const
+{
+	return ((this->numerator() * rhs.denominator()) <= (this->denominator() * rhs.numerator()));
+}
+
+bool RationalNumber::operator>=(const RationalNumber& rhs) const
+{
+	return ((this->numerator() * rhs.denominator()) >= (this->denominator() * rhs.numerator()));
+}
+
+bool RationalNumber::operator==(const RationalNumber& rhs) const
+{
+	return ((this->denominator() == rhs.denominator()) && (this->numerator() == rhs.numerator()));
+}
+
+bool RationalNumber::operator!=(const RationalNumber& rhs) const
+{
+	return !(*this==rhs);
 }
 
 void RationalNumber::Simplify()
@@ -112,10 +138,31 @@ void RationalNumber::Simplify()
 
 ostream& operator<<(ostream& ostream, const RationalNumber& rhs)
 {
-	// TODO: insert return statement here
+	if (rhs.numerator() == rhs.denominator()) {
+		cout << "-> 1" << endl;
+	}
+	else if (rhs.denominator() == 0)
+	{
+		cout << "-> 0" << endl;
+	}
+	else
+	{
+		cout << "-> " << rhs.numerator() << " / " << rhs.denominator() << endl;
+	}
+	return ostream;
 }
 
 istream& operator>>(istream& istream, RationalNumber& rhs)
 {
-	// TODO: insert return statement here
+	istream >> rhs.numerator_ >> rhs.denominator_;
+	if (rhs.denominator_ == 0)
+	{
+		rhs.numerator_ = 0;
+		rhs.denominator_ = 1;
+	}
+	else
+	{
+		rhs.Simplify();
+	}
+	return istream;
 }
