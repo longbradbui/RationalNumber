@@ -1,0 +1,19 @@
+#ifndef RATIONAL_NUMBER_H_
+#define RATIONAL_NUMBER_H_
+#include <iostream>;
+using namespace std;
+
+class RationalNumber
+{
+public:
+	RationalNumber();
+	RationalNumber(int numerator, int denominator);
+	friend ostream& operator<<(ostream& ostream, const RationalNumber& rhs);
+	friend istream& operator>>(istream& istream, RationalNumber& rhs);
+
+private:
+	int numerator_;
+	int denominator_;
+};
+
+#endif
